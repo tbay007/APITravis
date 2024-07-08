@@ -9,8 +9,7 @@ namespace Repos
     public class TravisRepos : DbContext
     {
   
-        public DbSet<Blog> Blogs { get; set; }
-        public DbSet<Post> Posts { get; set; }
+        public DbSet<Dog> Dogs { get; set; }
 
         public string DbPath { get; }
 
@@ -27,23 +26,35 @@ namespace Repos
         {
             options.UseSqlite($"Data Source={DbPath}");
         }
+
+        public Dog? GetRandomDog()
+        {
+            int amountOfDogs = this.Dogs.Count();
+            int randomDog = new Random().Next(1, amountOfDogs);
+            var dog = this.Dogs.Where(d => d.DogId == randomDog).FirstOrDefault();
+            return dog;
+        }
+
+        public void PostDog(Dog dog)
+        {
+            this.Dogs.Add(dog);
+            this.SaveChanges();
+        }
     }
 
-    public class Blog
+    public class Dog : Animal
     {
-        public int BlogId { get; set; }
-        public string Url { get; set; }
+        public int DogId { get; set; }
+        public string ImageUrl { get; set; }
 
-        public List<Post> Posts { get; } = new();
+
     }
 
-    public class Post
+    public class Animal
     {
-        public int PostId { get; set; }
+        public int AnimalId { get; set; }
         public string Title { get; set; }
-        public string Content { get; set; }
+        public string Description { get; set; }
 
-        public int BlogId { get; set; }
-        public Blog Blog { get; set; }
     }
 }

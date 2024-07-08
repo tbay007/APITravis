@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-
+using Repos;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace APITravis.Controllers
@@ -9,23 +9,32 @@ namespace APITravis.Controllers
     public class TravisController : ControllerBase
     {
         // GET: <TravisController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        [HttpGet("GetPuppies")]
+        public Dog? Get()
         {
-            return new string[] { "value1", "value2" };
+             
+            using var db = new TravisRepos();
+            // Note: This sample requires the database to be created before running.
+            Console.WriteLine($"Database path: {db.DbPath}.");
+            var dog = db.GetRandomDog();
+
+            return dog;
         }
 
         // GET <TravisController>/5
         [HttpGet("{id}")]
         public string Get(int id)
         {
+
             return "value";
         }
 
         // POST <TravisController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpPost("SaveDog")]
+        public void Post([FromBody] Dog value)
         {
+            using var db = new TravisRepos();
+            db.PostDog(value);
         }
 
         // PUT <TravisController>/5

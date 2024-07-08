@@ -26,7 +26,7 @@ namespace APITravis
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
+            
 
             app.MapControllers();
 
