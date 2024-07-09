@@ -1,21 +1,25 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Repos;
+using Repos.interfaces;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace APITravis.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class TravisController : ControllerBase
+    public class DogController : ControllerBase
     {
+        ITravisRepos repos;
+        public DogController(ITravisRepos repo) 
+        {
+            repos = repo;
+        }
+
         // GET: <GetRandomDog>
         [HttpGet("GetRandomDog")]
         public Dog? Get()
         {
-            using var db = new TravisRepos();
-            // Note: This sample requires the database to be created before running.
-            Console.WriteLine($"Database path: {db.DbPath}.");
-            var dog = db.GetRandomDog();
+            var dog = repos.GetRandomDog();
             return dog;
         }
 
@@ -26,30 +30,41 @@ namespace APITravis.Controllers
         [HttpGet("AllDogs")]
         public List<Dog> GetAllDogs()
         {
-            using var db = new TravisRepos();
-            return db.AllDogs();
+            return repos.AllDogs();
         }
 
         // GET <TravisController>/5
         [HttpGet("GetDog/{id}")]
-        public string Get(int id)
+        public Dog? Get(int id)
         {
-
-            return "value";
+            var dog = repos.GetSpecificDog(id);
+            return dog;
         }
 
         // POST <SaveDog>
         [HttpPost("SaveDog")]
         public void Post([FromBody] Dog value)
         {
-            using var db = new TravisRepos();
-            db.PostDog(value);
+            repos.PostDog(value);
         }
 
         // PUT <TravisController>/5
         [HttpPut("UpdateDog/{id}")]
-        public void Put(int id, [FromBody] string value)
+        public ActionResult Put(int id, [FromBody] Dog value)
         {
+            if (id == 0 && value != null) { return NotFound(); }
+            else
+            {
+                if (value != null)
+                {
+                    var updatedDog = repos.UpdateDog(id, value);
+                    return Ok(updatedDog);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
         }
 
         // DELETE <TravisController>/5
@@ -57,8 +72,7 @@ namespace APITravis.Controllers
         public ActionResult Delete(int id)
         {
             if (id == 0) { return NotFound(); };
-            using var db = new TravisRepos();
-            db.DeleteDog(id);
+            repos.DeleteDog(id);
             return Ok();
         }
     }
