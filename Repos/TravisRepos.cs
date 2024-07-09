@@ -55,6 +55,21 @@ namespace Repos
             return this.Dogs.Where(dog => dog.DogId == id).FirstOrDefault();
         }
 
+        public Dog? UpdateDog(int id, Dog dog)
+        {
+            Dog? updateDog = this.Dogs.Where(d => d.DogId == id).FirstOrDefault();
+            if (updateDog != null)
+            {
+                updateDog.Title = dog.Title;
+                updateDog.DogUID = dog.DogUID;
+                updateDog.Description = dog.Description;
+                updateDog.ImageUrl = dog.ImageUrl;
+                this.Update(updateDog);
+            }
+            this.SaveChanges();
+            return updateDog;
+        }
+
         public void DeleteDog(int id) 
         {
             var dogToDelete = this.Dogs.Where(dog => dog.DogId == id).FirstOrDefault();

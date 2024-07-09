@@ -50,8 +50,21 @@ namespace APITravis.Controllers
 
         // PUT <TravisController>/5
         [HttpPut("UpdateDog/{id}")]
-        public void Put(int id, [FromBody] string value)
+        public ActionResult Put(int id, [FromBody] Dog value)
         {
+            if (id == 0 && value != null) { return NotFound(); }
+            else
+            {
+                if (value != null)
+                {
+                    var updatedDog = repos.UpdateDog(id, value);
+                    return Ok(updatedDog);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
         }
 
         // DELETE <TravisController>/5
