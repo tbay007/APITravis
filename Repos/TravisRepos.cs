@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Repos.interfaces;
 using System;
 using System.Collections.Generic;
 using System.Reflection.Metadata;
@@ -9,7 +10,7 @@ namespace Repos
     /// Uses dbcontext for sqlite on storing information locally.  Currently labeled blogging.db.
     /// It also can get random dog information and posting the dog information
     /// </summary>
-    public class TravisRepos : DbContext
+    public class TravisRepos : DbContext, ITravisRepos
     {
   
         public DbSet<Dog> Dogs { get; set; }
@@ -49,6 +50,11 @@ namespace Repos
             return this.Dogs.ToList();
         }
 
+        public Dog? GetSpecificDog(int id)
+        {
+            return this.Dogs.Where(dog => dog.DogId == id).FirstOrDefault();
+        }
+
         public void DeleteDog(int id) 
         {
             var dogToDelete = this.Dogs.Where(dog => dog.DogId == id).FirstOrDefault();
@@ -60,7 +66,7 @@ namespace Repos
         }
     }
 
-    public class Dog : Animal
+    public class Dog : Animal, IDog
     {
         public int DogId { get; set; }
         public string? ImageUrl { get; set; }
@@ -68,11 +74,17 @@ namespace Repos
 
     }
 
-    public class Animal
+    public abstract class Animal
     {
         public int AnimalId { get; set; }
         public string? Title { get; set; }
         public string? Description { get; set; }
-
+    }
+    
+    public interface IDog
+    {
+        int DogId { get; set; }
+        string? ImageUrl { get; set; }
+        string? DogUID { get; set; }
     }
 }
