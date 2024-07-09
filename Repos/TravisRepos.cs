@@ -5,7 +5,10 @@ using System.Reflection.Metadata;
 
 namespace Repos
 {
-
+    /// <summary>
+    /// Uses dbcontext for sqlite on storing information locally.  Currently labeled blogging.db.
+    /// It also can get random dog information and posting the dog information
+    /// </summary>
     public class TravisRepos : DbContext
     {
   
@@ -40,21 +43,36 @@ namespace Repos
             this.Dogs.Add(dog);
             this.SaveChanges();
         }
+
+        public List<Dog> AllDogs()
+        {
+            return this.Dogs.ToList();
+        }
+
+        public void DeleteDog(int id) 
+        {
+            var dogToDelete = this.Dogs.Where(dog => dog.DogId == id).FirstOrDefault();
+            if (dogToDelete != null) 
+            {
+                this.Remove(dogToDelete);
+                this.SaveChanges();
+            }
+        }
     }
 
     public class Dog : Animal
     {
         public int DogId { get; set; }
-        public string ImageUrl { get; set; }
-
+        public string? ImageUrl { get; set; }
+        public string? DogUID { get; set; }
 
     }
 
     public class Animal
     {
         public int AnimalId { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
+        public string? Title { get; set; }
+        public string? Description { get; set; }
 
     }
 }
