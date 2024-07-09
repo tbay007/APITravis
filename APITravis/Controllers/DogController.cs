@@ -33,7 +33,7 @@ namespace APITravis.Controllers
             return repos.AllDogs();
         }
 
-        // GET <TravisController>/5
+        // GET <DogController>/5
         [HttpGet("GetDog/{id}")]
         public Dog? Get(int id)
         {
@@ -48,7 +48,7 @@ namespace APITravis.Controllers
             repos.PostDog(value);
         }
 
-        // PUT <TravisController>/5
+        // PUT <DogController>/5
         [HttpPut("UpdateDog/{id}")]
         public ActionResult Put(int id, [FromBody] Dog value)
         {
@@ -67,7 +67,7 @@ namespace APITravis.Controllers
             }
         }
 
-        // DELETE <TravisController>/5
+        // DELETE <DogController>/5
         [HttpDelete("DeleteDog/{id}")]
         public ActionResult Delete(int id)
         {
