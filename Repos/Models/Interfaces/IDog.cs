@@ -2,8 +2,8 @@
 {
     public interface IDog
     {
-        int DogId { get; set; }
+        int Id { get; set; }
         string? ImageUrl { get; set; }
-        string? DogUID { get; set; }
+        string? UID { get; set; }
     }
 }

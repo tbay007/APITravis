@@ -18,10 +18,10 @@ namespace APITravis.Controllers
 
         // GET: <GetRandomDog>
         [HttpGet("GetRandomDog")]
-        public Dog? Get()
+        public IActionResult Get()
         {
             var dog = repos.GetRandomDog();
-            return dog;
+            return Ok(dog);
         }
 
         /// <summary>
@@ -29,17 +29,17 @@ namespace APITravis.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("AllDogs")]
-        public List<Dog> GetAllDogs()
+        public IActionResult GetAllDogs()
         {
-            return repos.AllDogs();
+            return Ok(repos.AllDogs());
         }
 
         // GET <DogController>/5
         [HttpGet("GetDog/{id}")]
-        public Dog? Get(int id)
+        public IActionResult Get(int id)
         {
             var dog = repos.GetSpecificDog(id);
-            return dog;
+            return Ok(dog);
         }
 
         // POST <SaveDog>

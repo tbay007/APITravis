@@ -36,7 +36,7 @@ namespace Repos
         {
             int amountOfDogs = this.Dogs.Count();
             int randomDog = new Random().Next(1, amountOfDogs);
-            var dog = this.Dogs.Where(d => d.DogId == randomDog).FirstOrDefault();
+            var dog = this.Dogs.Where(d => d.Id == randomDog).FirstOrDefault();
             return dog;
         }
 
@@ -53,16 +53,16 @@ namespace Repos
 
         public Dog? GetSpecificDog(int id)
         {
-            return this.Dogs.Where(dog => dog.DogId == id).FirstOrDefault();
+            return this.Dogs.Where(dog => dog.Id == id).FirstOrDefault();
         }
 
         public Dog? UpdateDog(int id, Dog dog)
         {
-            Dog? updateDog = this.Dogs.Where(d => d.DogId == id).FirstOrDefault();
+            Dog? updateDog = this.Dogs.Where(d => d.Id == id).FirstOrDefault();
             if (updateDog != null)
             {
                 updateDog.Title = dog.Title;
-                updateDog.DogUID = dog.DogUID;
+                updateDog.UID = dog.UID;
                 updateDog.Description = dog.Description;
                 updateDog.ImageUrl = dog.ImageUrl;
                 this.Update(updateDog);
@@ -73,7 +73,7 @@ namespace Repos
 
         public void DeleteDog(int id) 
         {
-            var dogToDelete = this.Dogs.Where(dog => dog.DogId == id).FirstOrDefault();
+            var dogToDelete = this.Dogs.Where(dog => dog.Id == id).FirstOrDefault();
             if (dogToDelete != null) 
             {
                 this.Remove(dogToDelete);

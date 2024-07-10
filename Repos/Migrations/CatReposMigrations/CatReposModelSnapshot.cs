@@ -6,17 +6,17 @@ using Repos;
 
 #nullable disable
 
-namespace Repos.Migrations
+namespace Repos.Migrations.CatReposMigrations
 {
-    [DbContext(typeof(DogRepos))]
-    partial class TravisReposModelSnapshot : ModelSnapshot
+    [DbContext(typeof(CatRepos))]
+    partial class CatReposModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
 
-            modelBuilder.Entity("Repos.Models.Dog", b =>
+            modelBuilder.Entity("Repos.Models.Cat", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -39,7 +39,7 @@ namespace Repos.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Dogs");
+                    b.ToTable("Cats");
                 });
 #pragma warning restore 612, 618
         }
