@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Repos;
 using Repos.interfaces;
+using Repos.Models;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace APITravis.Controllers
@@ -9,8 +10,8 @@ namespace APITravis.Controllers
     [ApiController]
     public class DogController : ControllerBase
     {
-        ITravisRepos repos;
-        public DogController(ITravisRepos repo) 
+        IDogRepos repos;
+        public DogController(IDogRepos repo) 
         {
             repos = repo;
         }
@@ -50,7 +51,7 @@ namespace APITravis.Controllers
 
         // PUT <DogController>/5
         [HttpPut("UpdateDog/{id}")]
-        public ActionResult Put(int id, [FromBody] Dog value)
+        public IActionResult Put(int id, [FromBody] Dog value)
         {
             if (id == 0 && value != null) { return NotFound(); }
             else
@@ -69,7 +70,7 @@ namespace APITravis.Controllers
 
         // DELETE <DogController>/5
         [HttpDelete("DeleteDog/{id}")]
-        public ActionResult Delete(int id)
+        public IActionResult Delete(int id)
         {
             if (id == 0) { return NotFound(); };
             repos.DeleteDog(id);

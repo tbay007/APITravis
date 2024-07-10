@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Repos.interfaces;
+using Repos.Models;
 using System;
 using System.Collections.Generic;
-using System.Reflection.Metadata;
+
 
 namespace Repos
 {
@@ -10,14 +11,14 @@ namespace Repos
     /// Uses dbcontext for sqlite on storing information locally.  Currently labeled blogging.db.
     /// It also can get random dog information and posting the dog information
     /// </summary>
-    public class TravisRepos : DbContext, ITravisRepos
+    public class DogRepos : DbContext, IDogRepos
     {
   
         public DbSet<Dog> Dogs { get; set; }
 
         public string DbPath { get; }
 
-        public TravisRepos()
+        public DogRepos()
         {
             var folder = Environment.SpecialFolder.LocalApplicationData;
             var path = Environment.GetFolderPath(folder);
@@ -81,25 +82,5 @@ namespace Repos
         }
     }
 
-    public class Dog : Animal, IDog
-    {
-        public int DogId { get; set; }
-        public string? ImageUrl { get; set; }
-        public string? DogUID { get; set; }
 
-    }
-
-    public abstract class Animal
-    {
-        public int AnimalId { get; set; }
-        public string? Title { get; set; }
-        public string? Description { get; set; }
-    }
-    
-    public interface IDog
-    {
-        int DogId { get; set; }
-        string? ImageUrl { get; set; }
-        string? DogUID { get; set; }
-    }
 }

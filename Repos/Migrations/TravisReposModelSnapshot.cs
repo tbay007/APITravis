@@ -8,7 +8,7 @@ using Repos;
 
 namespace Repos.Migrations
 {
-    [DbContext(typeof(TravisRepos))]
+    [DbContext(typeof(DogRepos))]
     partial class TravisReposModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

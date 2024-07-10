@@ -9,7 +9,7 @@ using Repos;
 
 namespace Repos.Migrations
 {
-    [DbContext(typeof(TravisRepos))]
+    [DbContext(typeof(DogRepos))]
     [Migration("20240709172851_SecondCreate")]
     partial class SecondCreate
     {

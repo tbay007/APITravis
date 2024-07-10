@@ -15,7 +15,10 @@ namespace APITravis
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            builder.Services.AddScoped<ITravisRepos, TravisRepos>();
+
+            //Adding injection into the controller
+            builder.Services.AddScoped<IDogRepos, DogRepos>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
