@@ -10,8 +10,8 @@ using Repos;
 namespace Repos.Migrations
 {
     [DbContext(typeof(DogRepos))]
-    [Migration("20240708161615_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240710124948_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -19,9 +19,9 @@ namespace Repos.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
 
-            modelBuilder.Entity("Repos.Dog", b =>
+            modelBuilder.Entity("Repos.Models.Dog", b =>
                 {
-                    b.Property<int>("DogId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -29,18 +29,18 @@ namespace Repos.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ImageUrl")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("DogId");
+                    b.Property<string>("UID")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
 
                     b.ToTable("Dogs");
                 });

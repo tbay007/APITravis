@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Repos.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Repos.interfaces
 {
-    public interface ITravisRepos
+    public interface IDogRepos
     {
         /// <summary>
         /// Gets a random dog in the collection of dogs

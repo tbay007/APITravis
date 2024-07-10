@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Repos;
 using Repos.interfaces;
+using Repos.Models;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace APITravis.Controllers
@@ -9,18 +10,18 @@ namespace APITravis.Controllers
     [ApiController]
     public class DogController : ControllerBase
     {
-        ITravisRepos repos;
-        public DogController(ITravisRepos repo) 
+        IDogRepos repos;
+        public DogController(IDogRepos repo) 
         {
             repos = repo;
         }
 
         // GET: <GetRandomDog>
         [HttpGet("GetRandomDog")]
-        public Dog? Get()
+        public IActionResult Get()
         {
             var dog = repos.GetRandomDog();
-            return dog;
+            return Ok(dog);
         }
 
         /// <summary>
@@ -28,17 +29,17 @@ namespace APITravis.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("AllDogs")]
-        public List<Dog> GetAllDogs()
+        public IActionResult GetAllDogs()
         {
-            return repos.AllDogs();
+            return Ok(repos.AllDogs());
         }
 
-        // GET <TravisController>/5
+        // GET <DogController>/5
         [HttpGet("GetDog/{id}")]
-        public Dog? Get(int id)
+        public IActionResult Get(int id)
         {
             var dog = repos.GetSpecificDog(id);
-            return dog;
+            return Ok(dog);
         }
 
         // POST <SaveDog>
@@ -48,9 +49,9 @@ namespace APITravis.Controllers
             repos.PostDog(value);
         }
 
-        // PUT <TravisController>/5
+        // PUT <DogController>/5
         [HttpPut("UpdateDog/{id}")]
-        public ActionResult Put(int id, [FromBody] Dog value)
+        public IActionResult Put(int id, [FromBody] Dog value)
         {
             if (id == 0 && value != null) { return NotFound(); }
             else
@@ -67,9 +68,9 @@ namespace APITravis.Controllers
             }
         }
 
-        // DELETE <TravisController>/5
+        // DELETE <DogController>/5
         [HttpDelete("DeleteDog/{id}")]
-        public ActionResult Delete(int id)
+        public IActionResult Delete(int id)
         {
             if (id == 0) { return NotFound(); };
             repos.DeleteDog(id);

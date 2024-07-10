@@ -1,6 +1,7 @@
 
 using Repos;
 using Repos.interfaces;
+using Repos.RepoInterfaces;
 namespace APITravis
 {
     public class Program
@@ -15,7 +16,11 @@ namespace APITravis
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            builder.Services.AddScoped<ITravisRepos, TravisRepos>();
+
+            //Adding injection into the controller
+            builder.Services.AddScoped<IDogRepos, DogRepos>();
+            builder.Services.AddScoped<ICatRepos, CatRepos>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
