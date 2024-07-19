@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Repos.interfaces;
 using Repos.Models;
 using Repos.RepoInterfaces;
@@ -17,6 +18,7 @@ namespace APITravis.Controllers
         /// Gets all dogs in collection AllDogs
         /// </summary>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpGet("GetAllCats")]
         public IActionResult GetAllCats()
         {
@@ -24,6 +26,7 @@ namespace APITravis.Controllers
         }
 
         // POST <SaveDog>
+        [AllowAnonymous]
         [HttpPost("SaveCat")]
         public void Post([FromBody] Cat value)
         {

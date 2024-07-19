@@ -21,10 +21,15 @@ namespace APITravis
             builder.Services.AddScoped<IDogRepos, DogRepos>();
             builder.Services.AddScoped<ICatRepos, CatRepos>();
 
-            var app = builder.Build();
+            builder.Services.Configure<IISServerOptions>(options =>
+            {
+                options.AutomaticAuthentication = false;
+            });
 
+            var app = builder.Build();
+            
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
@@ -36,7 +41,7 @@ namespace APITravis
             
 
             app.MapControllers();
-
+            
             app.Run();
         }
     }

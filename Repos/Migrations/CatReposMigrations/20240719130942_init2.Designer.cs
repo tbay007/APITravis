@@ -2,17 +2,20 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repos;
 
 #nullable disable
 
-namespace Repos.Migrations
+namespace Repos.Migrations.CatReposMigrations
 {
-    [DbContext(typeof(DogRepos))]
-    partial class TravisReposModelSnapshot : ModelSnapshot
+    [DbContext(typeof(CatRepos))]
+    [Migration("20240719130942_init2")]
+    partial class init2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
@@ -23,8 +26,16 @@ namespace Repos.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("AnimalVaccinationId")
+                    b.Property<int>("AnimalId")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(21)
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("EveryDay")
                         .HasColumnType("INTEGER");
@@ -37,6 +48,9 @@ namespace Repos.Migrations
 
                     b.Property<bool>("Monthly")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("Price")
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("Reoccurring")
                         .HasColumnType("INTEGER");
@@ -53,6 +67,9 @@ namespace Repos.Migrations
                     b.Property<bool>("Thursday")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Title")
+                        .HasColumnType("TEXT");
+
                     b.Property<bool>("Tuesday")
                         .HasColumnType("INTEGER");
 
@@ -65,76 +82,37 @@ namespace Repos.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AnimalSchedule");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("AnimalSchedule");
+
+                    b.UseTphMappingStrategy();
                 });
 
-            modelBuilder.Entity("Repos.Models.AnimalVaccinations", b =>
+            modelBuilder.Entity("Repos.Models.Cat", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                    b.HasBaseType("Repos.Models.AnimalSchedule");
 
-                    b.Property<int>("AnimalId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Description")
+                    b.Property<string>("ImageUrl")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("DogId")
+                    b.Property<int?>("ScheduleId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<decimal?>("Price")
+                    b.Property<string>("UID")
                         .HasColumnType("TEXT");
-
-                    b.Property<int>("ScheduleId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DogId");
 
                     b.HasIndex("ScheduleId");
 
-                    b.ToTable("AnimalVaccinations");
+                    b.HasDiscriminator().HasValue("Cat");
                 });
 
-            modelBuilder.Entity("Repos.Models.Dog", b =>
+            modelBuilder.Entity("Repos.Models.Cat", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Dogs");
-                });
-
-            modelBuilder.Entity("Repos.Models.AnimalVaccinations", b =>
-                {
-                    b.HasOne("Repos.Models.Dog", null)
-                        .WithMany("Vaccinations")
-                        .HasForeignKey("DogId");
-
                     b.HasOne("Repos.Models.AnimalSchedule", "Schedule")
                         .WithMany()
-                        .HasForeignKey("ScheduleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ScheduleId");
 
                     b.Navigation("Schedule");
-                });
-
-            modelBuilder.Entity("Repos.Models.Dog", b =>
-                {
-                    b.Navigation("Vaccinations");
                 });
 #pragma warning restore 612, 618
         }

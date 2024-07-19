@@ -22,7 +22,7 @@ namespace Repos
         {
             var folder = Environment.SpecialFolder.LocalApplicationData;
             var path = Environment.GetFolderPath(folder);
-            DbPath = System.IO.Path.Join(path, "blogging.db");
+            DbPath = System.IO.Path.Join(path, "dog.db");
         }
 
         // The following configures EF to create a Sqlite database file in the
@@ -62,9 +62,7 @@ namespace Repos
             if (updateDog != null)
             {
                 updateDog.Title = dog.Title;
-                updateDog.UID = dog.UID;
                 updateDog.Description = dog.Description;
-                updateDog.ImageUrl = dog.ImageUrl;
                 this.Update(updateDog);
             }
             this.SaveChanges();
