@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,8 +12,9 @@ namespace Repos.Models
 	public class AnimalSchedule
 	{
 		[Key]
-		public int Id { get; set; }
-		public int AnimalVaccinationId { get; set; }
+		public int ScheduleId { get; set; }
+		[ForeignKey("VaccinationId")]
+		public int VaccinationId { get; set; }
 		public bool Reoccurring { get; set; } = false;
 		public AnimalSchedule() { }
 		public bool Monday { get; set; } = false;

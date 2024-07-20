@@ -19,11 +19,8 @@ namespace Repos.Migrations
 
             modelBuilder.Entity("Repos.Models.AnimalSchedule", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ScheduleId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("AnimalVaccinationId")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("EveryDay")
@@ -56,20 +53,23 @@ namespace Repos.Migrations
                     b.Property<bool>("Tuesday")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("VaccinationId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<bool>("Wednesday")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("Yearly")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("Id");
+                    b.HasKey("ScheduleId");
 
                     b.ToTable("AnimalSchedule");
                 });
 
             modelBuilder.Entity("Repos.Models.AnimalVaccinations", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("VaccinationsId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -91,7 +91,7 @@ namespace Repos.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("VaccinationsId");
 
                     b.HasIndex("DogId");
 

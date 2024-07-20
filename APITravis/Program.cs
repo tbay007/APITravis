@@ -20,8 +20,8 @@ namespace APITravis
             //Adding injection into the controller
             builder.Services.AddScoped<IDogRepos, DogRepos>();
             builder.Services.AddScoped<ICatRepos, CatRepos>();
-
-            builder.Services.Configure<IISServerOptions>(options =>
+			//builder.Services.RegisterType<Animal>().PropertiesAutowired().InstancePerLifetimeScope();
+			builder.Services.Configure<IISServerOptions>(options =>
             {
                 options.AutomaticAuthentication = false;
             });

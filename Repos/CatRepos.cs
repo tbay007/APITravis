@@ -12,7 +12,7 @@ namespace Repos
 {
     public class CatRepos : DbContext, ICatRepos
     {
-        public DbSet<Cat> Cats { get; set; }
+        public DbSet<Animal> Cats { get; set; }
         public DbSet<AnimalVaccinations> Vaccinations { get; set; }
         public DbSet<AnimalSchedule> Schedules { get; set; }
         public string DbPath { get; }
@@ -49,13 +49,12 @@ namespace Repos
                 }
 				this.Cats.Add(cat);
 			}
-
             this.SaveChanges();
         }
 
-        public List<Cat> AllCats()
+        public List<Animal> AllCats()
         {
-            return this.Cats.ToList();
+			return Cats.Include(x => x.Vaccinations).ToList();
         }
     }
 }
