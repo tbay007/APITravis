@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Repos.interfaces;
 using Repos.Models;
+using Repos.Models.Interfaces;
 using System;
 using System.Collections.Generic;
 
@@ -14,9 +15,11 @@ namespace Repos
     public class DogRepos : DbContext, IDogRepos
     {
   
-        public DbSet<Dog> Dogs { get; set; }
+        public DbSet<Animal> Dogs { get; set; }
+		public DbSet<AnimalVaccinations> Vaccinations { get; set; }
+		public DbSet<AnimalSchedule> Schedules { get; set; }
 
-        public string DbPath { get; }
+		public string DbPath { get; }
 
         public DogRepos()
         {
@@ -32,7 +35,7 @@ namespace Repos
             options.UseSqlite($"Data Source={DbPath}");
         }
 
-        public Dog? GetRandomDog()
+        public Animal? GetRandomDog()
         {
             int amountOfDogs = this.Dogs.Count();
             int randomDog = new Random().Next(1, amountOfDogs);
@@ -42,23 +45,35 @@ namespace Repos
 
         public void PostDog(Dog dog)
         {
-            this.Dogs.Add(dog);
-            this.SaveChanges();
+			if (dog != null)
+			{
+				if (dog.Vaccinations != null)
+				{
+					foreach (var vacc in dog.Vaccinations)
+					{
+						this.Schedules.Add(vacc.Schedule);
+					}
+					this.Vaccinations.AddRange(dog.Vaccinations);
+
+				}
+				this.Dogs.Add(dog);
+			}
+			this.SaveChanges();
         }
 
-        public List<Dog> AllDogs()
+        public List<Animal>? AllDogs()
         {
-            return this.Dogs.ToList();
+            return this.Dogs?.Include(v => v.Vaccinations).ThenInclude(s => s.Schedule).ToList();
         }
 
-        public Dog? GetSpecificDog(int id)
+        public Animal? GetSpecificDog(int id)
         {
             return this.Dogs.Where(dog => dog.Id == id).FirstOrDefault();
         }
 
-        public Dog? UpdateDog(int id, Dog dog)
+        public Animal? UpdateDog(int id, Dog dog)
         {
-            Dog? updateDog = this.Dogs.Where(d => d.Id == id).FirstOrDefault();
+            Animal? updateDog = this.Dogs.Where(d => d.Id == id).FirstOrDefault();
             if (updateDog != null)
             {
                 updateDog.Title = dog.Title;
@@ -71,9 +86,21 @@ namespace Repos
 
         public void DeleteDog(int id) 
         {
-            var dogToDelete = this.Dogs.Where(dog => dog.Id == id).FirstOrDefault();
+            var dogToDelete = this.Dogs.Include(v => v.Vaccinations).ThenInclude(s => s.Schedule)
+                                    .Where(dog => dog.Id == id).FirstOrDefault();
             if (dogToDelete != null) 
             {
+                foreach (var vacc in dogToDelete.Vaccinations)
+                {
+                    if (vacc != null)
+                    {
+                        //delete schedules
+                        Schedules.RemoveRange(vacc.Schedule);
+
+                        //delete vaccinations
+                        Vaccinations.Remove(vacc);
+                    }
+                }
                 this.Remove(dogToDelete);
                 this.SaveChanges();
             }

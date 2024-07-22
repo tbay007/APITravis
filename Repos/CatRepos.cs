@@ -52,9 +52,9 @@ namespace Repos
             this.SaveChanges();
         }
 
-        public List<Animal> AllCats()
+        public List<Animal>? AllCats()
         {
-			return Cats.Include(x => x.Vaccinations).ToList();
+			return Cats.Include(v => v.Vaccinations).ThenInclude(s => s.Schedule).ToList();
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Repos.interfaces
         /// Gets a random dog in the collection of dogs
         /// </summary>
         /// <returns></returns>
-        Dog? GetRandomDog();
+        Animal? GetRandomDog();
         /// <summary>
         /// This will save a new dog to the db
         /// </summary>
@@ -23,24 +23,24 @@ namespace Repos.interfaces
         /// Grabs all existing dogs
         /// </summary>
         /// <returns></returns>
-        List<Dog> AllDogs();
-        /// <summary>
-        /// Grabs a specific dog
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        Dog? GetSpecificDog(int id);
+        List<Animal>? AllDogs();
+		/// <summary>
+		/// Grabs a specific dog
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		Animal? GetSpecificDog(int id);
         /// <summary>
         /// Deletes a dog from the db
         /// </summary>
         /// <param name="id"></param>
         void DeleteDog(int id);
-        /// <summary>
-        /// Updates the existing dog
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="dog"></param>
-        /// <returns></returns>
-        Dog? UpdateDog(int id, Dog dog);
+		/// <summary>
+		/// Updates the existing dog
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="dog"></param>
+		/// <returns></returns>
+		Animal? UpdateDog(int id, Dog dog);
     }
 }
