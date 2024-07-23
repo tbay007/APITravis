@@ -2,25 +2,31 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repos;
 
 #nullable disable
 
-namespace Repos.Migrations
+namespace Repos.Migrations.CatReposMigrations
 {
-    [DbContext(typeof(DogRepos))]
-    partial class TravisReposModelSnapshot : ModelSnapshot
+    [DbContext(typeof(CatRepos))]
+    [Migration("20240719135204_init4")]
+    partial class init4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
 
             modelBuilder.Entity("Repos.Models.AnimalSchedule", b =>
                 {
-                    b.Property<int>("ScheduleId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("AnimalVaccinationId")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("EveryDay")
@@ -53,34 +59,31 @@ namespace Repos.Migrations
                     b.Property<bool>("Tuesday")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("VaccinationId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<bool>("Wednesday")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("Yearly")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("ScheduleId");
+                    b.HasKey("Id");
 
                     b.ToTable("Schedules");
                 });
 
             modelBuilder.Entity("Repos.Models.AnimalVaccinations", b =>
                 {
-                    b.Property<int>("VaccinationsId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("AnimalId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("CatId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
-
-                    b.Property<int?>("DogId")
-                        .HasColumnType("INTEGER");
 
                     b.Property<decimal?>("Price")
                         .HasColumnType("TEXT");
@@ -91,16 +94,16 @@ namespace Repos.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("VaccinationsId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("DogId");
+                    b.HasIndex("CatId");
 
                     b.HasIndex("ScheduleId");
 
                     b.ToTable("Vaccinations");
                 });
 
-            modelBuilder.Entity("Repos.Models.Dog", b =>
+            modelBuilder.Entity("Repos.Models.Cat", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -114,14 +117,14 @@ namespace Repos.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Dogs");
+                    b.ToTable("Cats");
                 });
 
             modelBuilder.Entity("Repos.Models.AnimalVaccinations", b =>
                 {
-                    b.HasOne("Repos.Models.Dog", null)
+                    b.HasOne("Repos.Models.Cat", null)
                         .WithMany("Vaccinations")
-                        .HasForeignKey("DogId");
+                        .HasForeignKey("CatId");
 
                     b.HasOne("Repos.Models.AnimalSchedule", "Schedule")
                         .WithMany()
@@ -132,7 +135,7 @@ namespace Repos.Migrations
                     b.Navigation("Schedule");
                 });
 
-            modelBuilder.Entity("Repos.Models.Dog", b =>
+            modelBuilder.Entity("Repos.Models.Cat", b =>
                 {
                     b.Navigation("Vaccinations");
                 });

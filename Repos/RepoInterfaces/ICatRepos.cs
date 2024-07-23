@@ -9,7 +9,7 @@ namespace Repos.RepoInterfaces
 {
     public interface ICatRepos
     {
-        List<Cat> AllCats();
+        List<Animal> AllCats();
         void PostCat(Cat cat);
     }
 }

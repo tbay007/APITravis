@@ -8,8 +8,5 @@ namespace Repos.Models.Interfaces
 {
     public interface ICat
     {
-        int Id { get; set; }
-        string? ImageUrl { get; set; }
-        string? UID { get; set; }
     }
 }

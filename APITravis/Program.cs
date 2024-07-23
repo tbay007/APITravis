@@ -20,11 +20,16 @@ namespace APITravis
             //Adding injection into the controller
             builder.Services.AddScoped<IDogRepos, DogRepos>();
             builder.Services.AddScoped<ICatRepos, CatRepos>();
+			//builder.Services.RegisterType<Animal>().PropertiesAutowired().InstancePerLifetimeScope();
+			builder.Services.Configure<IISServerOptions>(options =>
+            {
+                options.AutomaticAuthentication = false;
+            });
 
             var app = builder.Build();
-
+            
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
@@ -36,7 +41,7 @@ namespace APITravis
             
 
             app.MapControllers();
-
+            
             app.Run();
         }
     }

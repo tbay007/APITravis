@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repos;
 
@@ -10,17 +11,22 @@ using Repos;
 namespace Repos.Migrations
 {
     [DbContext(typeof(DogRepos))]
-    partial class TravisReposModelSnapshot : ModelSnapshot
+    [Migration("20240719132145_init3")]
+    partial class init3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
 
             modelBuilder.Entity("Repos.Models.AnimalSchedule", b =>
                 {
-                    b.Property<int>("ScheduleId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("AnimalVaccinationId")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("EveryDay")
@@ -53,23 +59,20 @@ namespace Repos.Migrations
                     b.Property<bool>("Tuesday")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("VaccinationId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<bool>("Wednesday")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("Yearly")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("ScheduleId");
+                    b.HasKey("Id");
 
-                    b.ToTable("Schedules");
+                    b.ToTable("AnimalSchedule");
                 });
 
             modelBuilder.Entity("Repos.Models.AnimalVaccinations", b =>
                 {
-                    b.Property<int>("VaccinationsId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -91,13 +94,13 @@ namespace Repos.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("VaccinationsId");
+                    b.HasKey("Id");
 
                     b.HasIndex("DogId");
 
                     b.HasIndex("ScheduleId");
 
-                    b.ToTable("Vaccinations");
+                    b.ToTable("AnimalVaccinations");
                 });
 
             modelBuilder.Entity("Repos.Models.Dog", b =>
@@ -109,7 +112,13 @@ namespace Repos.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Title")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UID")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

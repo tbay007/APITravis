@@ -1,9 +1,17 @@
-﻿namespace Repos.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Repos.Models
 {
-    public abstract class Animal
+    public class Animal
     {
-        public int AnimalId { get; set; }
+        public Animal() 
+        {
+            Vaccinations = new List<AnimalVaccinations>();
+        }
+        [Key]
+        public int Id { get; set; }
         public string? Title { get; set; }
         public string? Description { get; set; }
+        public List<AnimalVaccinations>? Vaccinations { get; set; }
     }
 }

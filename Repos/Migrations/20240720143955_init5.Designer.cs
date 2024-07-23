@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repos;
 
@@ -10,9 +11,11 @@ using Repos;
 namespace Repos.Migrations
 {
     [DbContext(typeof(DogRepos))]
-    partial class TravisReposModelSnapshot : ModelSnapshot
+    [Migration("20240720143955_init5")]
+    partial class init5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
@@ -64,7 +67,7 @@ namespace Repos.Migrations
 
                     b.HasKey("ScheduleId");
 
-                    b.ToTable("Schedules");
+                    b.ToTable("AnimalSchedule");
                 });
 
             modelBuilder.Entity("Repos.Models.AnimalVaccinations", b =>
@@ -97,7 +100,7 @@ namespace Repos.Migrations
 
                     b.HasIndex("ScheduleId");
 
-                    b.ToTable("Vaccinations");
+                    b.ToTable("AnimalVaccinations");
                 });
 
             modelBuilder.Entity("Repos.Models.Dog", b =>
