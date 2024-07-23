@@ -37,10 +37,21 @@ namespace Repos
 
         public Animal? GetRandomDog()
         {
-            int amountOfDogs = this.Dogs.Count();
-            int randomDog = new Random().Next(1, amountOfDogs);
-            var dog = this.Dogs.Where(d => d.Id == randomDog).FirstOrDefault();
-            return dog;
+            var maxId = this.Dogs.Select(x => x.Id).Max();
+			int amountOfDogs = this.Dogs.Count();
+            Animal? dog = null;
+			if (maxId != amountOfDogs)
+            {
+				int randomDog = new Random().Next(maxId, maxId);
+				dog = this.Dogs.Include(v => v.Vaccinations).ThenInclude(s => s.Schedule).Where(d => d.Id == randomDog).FirstOrDefault();
+			}
+            else
+            {
+				int randomDog = new Random().Next(1, maxId);
+				dog = this.Dogs.Include(v => v.Vaccinations).ThenInclude(s => s.Schedule).Where(d => d.Id == randomDog).FirstOrDefault();
+			}
+
+			return dog;
         }
 
         public void PostDog(Dog dog)
@@ -68,12 +79,12 @@ namespace Repos
 
         public Animal? GetSpecificDog(int id)
         {
-            return this.Dogs.Where(dog => dog.Id == id).FirstOrDefault();
+            return this.Dogs.Include(v => v.Vaccinations).ThenInclude(s => s.Schedule).Where(dog => dog.Id == id).FirstOrDefault();
         }
 
         public Animal? UpdateDog(int id, Dog dog)
         {
-            Animal? updateDog = this.Dogs.Where(d => d.Id == id).FirstOrDefault();
+            Animal? updateDog = this.Dogs.Include(v => v.Vaccinations).ThenInclude(s => s.Schedule).Where(d => d.Id == id).FirstOrDefault();
             if (updateDog != null)
             {
                 updateDog.Title = dog.Title;
