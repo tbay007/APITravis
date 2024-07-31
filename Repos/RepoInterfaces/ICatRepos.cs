@@ -11,5 +11,7 @@ namespace Repos.RepoInterfaces
     {
         List<Animal> AllCats();
         void PostCat(Cat cat);
-    }
+        Animal? GetRandomCat();
+
+	}
 }

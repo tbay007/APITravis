@@ -30,8 +30,6 @@ namespace Repos
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             options.UseSqlite($"Data Source={DbPath}");
-
-			
 		}
 
         public void PostCat(Cat cat)
@@ -56,5 +54,24 @@ namespace Repos
         {
 			return Cats.Include(v => v.Vaccinations).ThenInclude(s => s.Schedule).ToList();
         }
-    }
+
+		public Animal? GetRandomCat()
+		{
+			var maxId = this.Cats.Select(x => x.Id).Max();
+			int amountOfCats = this.Cats.Count();
+			Animal? cat = null;
+			if (maxId != amountOfCats)
+			{
+				int randomDog = new Random().Next(maxId, maxId);
+				cat = this.Cats.Include(v => v.Vaccinations).ThenInclude(s => s.Schedule).Where(d => d.Id == randomDog).FirstOrDefault();
+			}
+			else
+			{
+				int randomDog = new Random().Next(1, maxId);
+				cat = this.Cats.Include(v => v.Vaccinations).ThenInclude(s => s.Schedule).Where(d => d.Id == randomDog).FirstOrDefault();
+			}
+
+			return cat;
+		}
+	}
 }

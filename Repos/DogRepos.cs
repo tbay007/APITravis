@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace Repos
 {
     /// <summary>
-    /// Uses dbcontext for sqlite on storing information locally.  Currently labeled blogging.db.
+    /// Uses dbcontext for sqlite on storing information locally.  Currently labeled dog.db.
     /// It also can get random dog information and posting the dog information
     /// </summary>
     public class DogRepos : DbContext, IDogRepos
